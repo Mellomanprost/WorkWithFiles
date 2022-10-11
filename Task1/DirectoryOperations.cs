@@ -30,13 +30,12 @@ namespace Task1
                             ReadFiles(dir.GetFiles());
                             ReadShowDeleteCatalogs(dir.GetDirectories());
                             Console.WriteLine("Обнаружен каталог -- " + dir.Name);
-                            TimeSpan timeFromLastUsingDir = DateTime.Now - Directory.GetLastWriteTime(dir.FullName);
-                            TimeSpan x = -dir.LastAccessTime.Subtract(DateTime.Now);//////////////////////////////
-                            Console.WriteLine("TimeSpan x = " + x);
+                            TimeSpan timeFromLastUsingDir = -dir.LastAccessTime.Subtract(DateTime.Now);     // Переменная для вывода разницы времени последнего использования и текущего времени.
+                            Console.WriteLine("TimeSpan x = " + timeFromLastUsingDir);
                             if (timeFromLastUsingDir > TimeSpan.FromMinutes(30))
                             {
                                 Console.WriteLine("Каталог {0} удален, т.к. не использовался {1} времени", dir.Name, timeFromLastUsingDir);
-                                //dir.Delete(true);
+                                dir.Delete(true);
                             }
                         }
                     }
@@ -56,7 +55,7 @@ namespace Task1
                         if (timeFromLastUsingFile > TimeSpan.FromMinutes(30))
                         {
                             Console.WriteLine("Файл {0} удален, т.к. не использовался {1} времени", file.Name, timeFromLastUsingFile);
-                            //file.Delete();
+                            file.Delete();
                         }
                     }
                 }
