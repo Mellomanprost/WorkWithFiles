@@ -11,72 +11,56 @@ namespace Task1
     {
         public static void GetCatalogsAndFiles(string dirNamePath)
         {
-            if (Directory.Exists(dirNamePath))
+            if (Directory.Exists(dirNamePath))  // Проверка существования пути.
             {
                 Console.WriteLine("Директория по пути " + dirNamePath + " найдена!");
                 try
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(dirNamePath);
-                    foreach (var file in directoryInfo.GetFiles())
+                    foreach (var file in directoryInfo.GetFiles())  // Просмотр всех файлов в корневом каталоге и удаление тех, которые не использовались более 30 минут.
                     {
-                        //Console.WriteLine("время последнего использования: " + (DateTime.UtcNow - File.GetLastAccessTimeUtc(directoryInfo.FullName + file.Name)));
-                        //if ((DateTime.UtcNow - File.GetLastAccessTimeUtc(directoryInfo.FullName + file.Name)) > TimeSpan.FromMinutes(30))
-                        //{
-                        //    Console.WriteLine("Файл " + file.Name + " удален!");
-                        //    file.Delete();
-                        //}
-                        //else
-                        //    Console.WriteLine(" -- " + file.Name);
-                        Console.WriteLine("Имя файла = {0}, полный путь = {1}", file, directoryInfo.FullName + file);
-                        DeleteFiles(file, directoryInfo.FullName);
+                        ShowAndDeleteFiles(file, directoryInfo.FullName);
                     }
+                    ReadShowDeleteCatalogs(directoryInfo.GetDirectories());
 
-                    ReadCatalogs(directoryInfo.GetDirectories());
-
-                    void ReadCatalogs(DirectoryInfo[] dirs)
+                    void ReadShowDeleteCatalogs(DirectoryInfo[] dirs)   // Рекурсивный метод для просмотра и вывода на консоль всех каталогов и удаления тех, которые не изменялись более 30 минут.
                     {
                         foreach (var dir in dirs)
                         {
                             ReadFiles(dir.GetFiles());
-                            ReadCatalogs(dir.GetDirectories());
-                            Console.WriteLine(" > " + dir.Name);
+                            ReadShowDeleteCatalogs(dir.GetDirectories());
+                            Console.WriteLine("Обнаружен каталог -- " + dir.Name);
+                            TimeSpan timeFromLastUsingDir = DateTime.Now - Directory.GetLastWriteTime(dir.FullName);
+                            TimeSpan x = -dir.LastAccessTime.Subtract(DateTime.Now);//////////////////////////////
+                            Console.WriteLine("TimeSpan x = " + x);
+                            if (timeFromLastUsingDir > TimeSpan.FromMinutes(30))
+                            {
+                                Console.WriteLine("Каталог {0} удален, т.к. не использовался {1} времени", dir.Name, timeFromLastUsingDir);
+                                //dir.Delete(true);
+                            }
                         }
                     }
 
-                    void ReadFiles(FileInfo[] files)
+                    void ReadFiles(FileInfo[] files)    // Метод для просмотр всех файлов в каталоге.
                     {
                         foreach (var file in files)
                         {
-                            Console.WriteLine("Полный путь к файлу в папке {0} = {1}", file, file.DirectoryName);
-                            //Console.WriteLine(" - " + file.Name);
-                            DeleteFiles(file, file.DirectoryName + "\\");
+                            ShowAndDeleteFiles(file, file.DirectoryName + "\\");
                         }
                     }
 
-                    void DeleteFiles(FileInfo file, string dirPath)
+                    void ShowAndDeleteFiles(FileInfo file, string dirPath)  // Метод для выведения всех файлов в каталоге на консоль и удаления тех, которые не использовались более 30 минут.
                     {
-                        Console.WriteLine("Текущее время: " + DateTime.Now);
-                        Console.WriteLine("Полный путь к файлу: {0}", dirPath + file.Name);
-                        Console.WriteLine("Время последнего использования файла: " + File.GetLastAccessTime(dirPath + file.Name));
-                        Console.WriteLine("Разница времени: " + (DateTime.Now - File.GetLastAccessTime(dirPath + file.Name)));
-                        if ((DateTime.Now - File.GetLastAccessTime(dirPath + file.Name)) > TimeSpan.FromMinutes(30))
+                        Console.WriteLine("Обнаружен файл - " + file.Name + " последнее время использования - " + File.GetLastAccessTime(dirPath + file.Name));
+                        TimeSpan timeFromLastUsingFile = DateTime.Now - File.GetLastAccessTime(dirPath + file.Name);
+                        if (timeFromLastUsingFile > TimeSpan.FromMinutes(30))
                         {
-                            Console.WriteLine("Файл " + file.Name + " удален!");
+                            Console.WriteLine("Файл {0} удален, т.к. не использовался {1} времени", file.Name, timeFromLastUsingFile);
                             //file.Delete();
                         }
-                        else
-                            Console.WriteLine(" -- " + file.Name);
-
                     }
-                    //foreach (var dir in directories)
-                    //{
-                    //    if((DateTime.UtcNow - Directory.GetLastAccessTimeUtc(dirNamePath)) > TimeSpan.FromMinutes(30))
-                    //    {
-
-                    //    }
-                    //}
                 }
-                catch (Exception e)
+                catch (Exception e)     // Обработка исключений.
                 {
                     Console.WriteLine(e.Message);
                 }
