@@ -12,7 +12,6 @@ namespace Task1
         {
             Console.WriteLine("Укажите путь к каталогу, в котором произвести очистку неиспользуемых файлов и папок: ");
             string dirNamePath = Convert.ToString(Console.ReadLine()); // Указывааем путь к директории
-
             DirectoryOperations.GetCatalogsAndFiles(dirNamePath);
         }
     }

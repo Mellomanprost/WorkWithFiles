@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Task1
 {
+    /// <summary>
+    /// Поиск всех папок и файлов в указанной директории и удаление тех, которые не использовались более 30 минут.
+    /// </summary>
     static class DirectoryOperations
     {
         public static void GetCatalogsAndFiles(string dirNamePath)
