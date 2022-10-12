@@ -21,8 +21,8 @@ namespace Task3
             DirectoryCleanerDisplay.DeleteCatalogsAndFiles(dirNamePath);
             DirectoryCleanerDisplay.ShowCatalogsAndFilesInfo(dirNamePath, out sizeAfterDeleting);
 
-            Console.Write("Освобождено: " + (originalSize - sizeAfterDeleting) + " байт.");
-            Console.Write("Текущий размер папки: " + sizeAfterDeleting);
+            Console.WriteLine("Освобождено: " + (originalSize - sizeAfterDeleting) + " байт.");
+            Console.WriteLine("Текущий размер папки: " + sizeAfterDeleting);
 
         }
     }
