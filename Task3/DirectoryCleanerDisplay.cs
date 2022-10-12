@@ -1,22 +1,18 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
-namespace Task1
+namespace Task3
 {
-    /// <summary>
-    /// Поиск всех папок и файлов в указанной директории и удаление тех, которые не использовались более 30 минут.
-    /// </summary>
-    static class DirectoryOperations
+    class DirectoryCleanerDisplay
     {
         public static void DeleteCatalogsAndFiles(string dirNamePath)
         {
             if (Directory.Exists(dirNamePath))  // Проверка существования каталога.
             {
-                //Console.WriteLine("Директория по пути " + dirNamePath + " найдена!");
                 try
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(dirNamePath);
@@ -32,11 +28,9 @@ namespace Task1
                         {
                             ReadFiles(dir.GetFiles());
                             ReadAndDeleteCatalogs(dir.GetDirectories());
-                            Console.WriteLine("Обнаружен каталог -- " + dir.Name);
                             TimeSpan timeFromLastUsingDir = -dir.LastAccessTime.Subtract(DateTime.Now);     // Переменная для вывода разницы времени последнего использования и текущего времени.
                             if (timeFromLastUsingDir > TimeSpan.FromMinutes(30))
                             {
-                                Console.WriteLine("Каталог {0} удален, т.к. не использовался {1} времени", dir.Name, timeFromLastUsingDir);
                                 dir.Delete(true);
                             }
                         }
@@ -52,11 +46,9 @@ namespace Task1
 
                     void DeleteFiles(FileInfo file, string dirPath)  // Метод для выведения всех файлов в каталоге на консоль и удаления тех, которые не использовались более 30 минут.
                     {
-                        Console.WriteLine("Обнаружен файл - " + file.Name + " последнее время использования - " + File.GetLastAccessTime(dirPath + file.Name));
                         TimeSpan timeFromLastUsingFile = DateTime.Now - File.GetLastAccessTime(dirPath + file.Name);
                         if (timeFromLastUsingFile > TimeSpan.FromMinutes(30))
                         {
-                            Console.WriteLine("Файл {0} удален, т.к. не использовался {1} времени", file.Name, timeFromLastUsingFile);
                             file.Delete();
                         }
                     }
@@ -69,6 +61,64 @@ namespace Task1
             else
                 Console.WriteLine("Директории по адресу " + dirNamePath + " не существует либо указан некорректный путь!");
         }
+
+
+        public static byte ShowCatalogsAndFilesInfo(string dirNamePath, out byte displayInfo)
+        {
+            if (Directory.Exists(dirNamePath))  // Проверка существования каталога.
+            {
+                //Console.WriteLine("Директория по пути " + dirNamePath + " найдена!");
+                byte allFileSize = 0;
+
+                try
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(dirNamePath);
+                    foreach (var file in directoryInfo.GetFiles())  // Просмотр всех файлов в корневом каталоге.
+                    {
+                        ShowFilesInfo(file, directoryInfo.FullName);
+                    }
+
+                    ReadAndShowCatalogsInfo(directoryInfo.GetDirectories());
+
+
+                    void ReadAndShowCatalogsInfo(DirectoryInfo[] dirs)   // Рекурсивный метод для просмотра всех каталогов.
+                    {
+                        foreach (var dir in dirs)
+                        {
+                            ReadFiles(dir.GetFiles());
+                            ReadAndShowCatalogsInfo(dir.GetDirectories());
+                        }
+                    }
+
+                    void ReadFiles(FileInfo[] files)    // Метод для просмотр всех файлов в каталоге.
+                    {
+                        foreach (var file in files)
+                        {
+                            ShowFilesInfo(file, file.DirectoryName + "\\");
+                        }
+                    }
+
+                    void ShowFilesInfo(FileInfo file, string dirPath)  // Метод для выведения всех файлов в каталоге на консоль и отображения их размера.
+                    {
+                        //Console.WriteLine("Обнаружен файл - " + file.Name + " размером - " + file.Length + " байт.");
+                        allFileSize += Convert.ToByte(file.Length);
+                    }
+                }
+                catch (Exception e)     // Обработка исключений.
+                {
+                    Console.WriteLine(e.Message);
+                }
+                displayInfo = allFileSize;
+                return displayInfo;
+            }
+            else
+            {
+                Console.WriteLine("Директории по адресу " + dirNamePath + " не существует либо указан некорректный путь!");
+                displayInfo = 0;
+                return displayInfo;
+            }
+        }
+
 
     }
 }

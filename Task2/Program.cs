@@ -10,6 +10,10 @@ namespace Task2
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Укажите путь к каталогу, в котором произвести очистку неиспользуемых файлов и папок: ");
+            string dirNamePath = Convert.ToString(Console.ReadLine()); // Указывааем путь к директории
+            DirectorySize.ShowCatalogsAndFilesInfo(dirNamePath);
+
         }
     }
 }

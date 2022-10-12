@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4813F8B7-1E7E-4697-BC04-DF555DC5BA67}</ProjectGuid>
+    <ProjectGuid>{13672D83-7CA9-4FFA-BAE2-2F1ADA735956}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Task2</RootNamespace>
-    <AssemblyName>Task2</AssemblyName>
+    <RootNamespace>Task3</RootNamespace>
+    <AssemblyName>Task3</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirectorySize.cs" />
+    <Compile Include="DirectoryCleanerDisplay.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
