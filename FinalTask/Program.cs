@@ -10,8 +10,8 @@ namespace FinalTask
     {
         static void Main(string[] args)
         {
-            string fileNamePath = @"d:\projct\Unit\Students.dat";   //Указывааем путь к файлу
-            string dirNamePath = @"d:\projct\Unit\Students";    //Указывааем путь к директории
+            string fileNamePath = @"c:\Users\LEGION 5\Desktop\Students.dat";   //Указывааем путь к файлу
+            string dirNamePath = @"c:\Users\LEGION 5\Desktop\Students";    //Указывааем путь к директории
             Student.ReadStudents(fileNamePath, out Student[] arrayOfStudents);
             WorkWithFilesAndDir.ChoiceDirectory(dirNamePath);
             WorkWithFilesAndDir.CreateTXTFile(arrayOfStudents);

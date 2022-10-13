@@ -32,10 +32,10 @@ namespace FinalTask
 
         public static void CreateTXTFile(Student[] students)        // Сортировка студентов из разных групп по файлам соответствующих групп.
         {
-            string group1Path = @"d:\projct\Unit\Students\Group-150.txt";
-            string group2Path = @"d:\projct\Unit\Students\Group-151.txt";
-            string group3Path = @"d:\projct\Unit\Students\Group-152.txt";
-            string group4Path = @"d:\projct\Unit\Students\Group-153.txt";
+            string group1Path = @"c:\Users\LEGION 5\Desktop\Students\Group-150.txt";
+            string group2Path = @"c:\Users\LEGION 5\Desktop\Students\Group-151.txt";
+            string group3Path = @"c:\Users\LEGION 5\Desktop\Students\Group-152.txt";
+            string group4Path = @"c:\Users\LEGION 5\Desktop\Students\Group-153.txt";
 
             try
             {
