@@ -12,8 +12,11 @@ namespace FinalTask
         {
             string fileNamePath = @"c:\Users\LEGION 5\Desktop\Students.dat";   //Указывааем путь к файлу
             string dirNamePath = @"c:\Users\LEGION 5\Desktop\Students";    //Указывааем путь к директории
+
             Student.ReadStudents(fileNamePath, out Student[] arrayOfStudents);
+
             WorkWithFilesAndDir.ChoiceDirectory(dirNamePath);
+
             WorkWithFilesAndDir.CreateTXTFile(arrayOfStudents);
         }
     }
